@@ -50,7 +50,7 @@ const MessageList = ({ message, currentUser }: MessageListProp) => {
               </div>
 
               
-              <p className="mt-2 break-words whitespace-pre-wrap">
+              <p className="mt-2 wrap-break-words whitespace-pre-wrap">
                 {m.text}
               </p>
             </div>

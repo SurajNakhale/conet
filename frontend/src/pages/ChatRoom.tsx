@@ -31,7 +31,8 @@ export function ChatRoom(){
             const type = parsedMsg.type;
 
             if(type == "room_update"){
-              const totalUsers = parsedMsg.payload.totalusers;
+              const totalUsers = parsedMsg.payload.totalUsers;
+              console.log(totalUsers)
               setOnlineUsers(totalUsers);
               
             }
