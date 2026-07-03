@@ -4,6 +4,17 @@
 
 Real-time room-based chat application powered by WebSockets and TypeScript.
 
+
+## Screen shots
+
+# join room
+![join-room](./screenshots/join-room.png)
+
+# Real-Time Conversation
+
+![Conversation](./screenshots/conversation.png)
+
+
 ## About
 
 Conet is a real-time room-based chat application built with React, TypeScript, and WebSockets. Users can create or join chat rooms and exchange messages instantly through persistent WebSocket connections. The project focuses on low-latency communication, scalable room management, and a clean modern user experience.
@@ -22,9 +33,26 @@ Conet is a real-time room-based chat application built with React, TypeScript, a
 - Lightweight, easy-to-extend starter for auth and persistence
 
 ## Repository structure
+conet
+│
+├── backend
+│   ├── src
+│   ├── package.json
+│   └── tsconfig.json
+│
+├── frontend
+│   ├── src
+│   ├── public
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── screenshots
+│   ├── conversation.png
+│   ├── join-room.png
+│
+│
+└── README.md
 
-- `backend/` — server source (TypeScript)
-- `frontend/` — client app (React + Vite)
 
 ## Prerequisites
 
