@@ -57,12 +57,10 @@ function SendMessage(message: messageInfoType, socket: WebSocket){
 
             const sockets = rooms.get(roomId);
             sockets?.forEach(s => {
-                if(s != socket){
                     s.send(JSON.stringify({
                         type: "chat",
                         payload: message
                     }));
-                }
             }) 
 }
 
@@ -70,7 +68,14 @@ function SendMessage(message: messageInfoType, socket: WebSocket){
 wss.on("connection", (socket) => {
 
     socket.on("message", (msg) => {
-        const parsedMsg = JSON.parse(msg.toString());
+        let parsedMsg;
+
+        try {
+            parsedMsg = JSON.parse(msg.toString());
+        } catch {
+            return;
+        }
+
         const type = parsedMsg.type;
         
         if(type == "join"){        
@@ -82,7 +87,7 @@ wss.on("connection", (socket) => {
         }
         
         if(type == "chat"){
-            const text = parsedMsg.payload.message;
+            const text = parsedMsg.payload.text;
             const username = socketToUser.get(socket);
 
             if(!username) return;
@@ -93,6 +98,8 @@ wss.on("connection", (socket) => {
                 timestamp: Date.now()
             }
             SendMessage(message, socket);
+            console.log(message);
+
         }
 
 
