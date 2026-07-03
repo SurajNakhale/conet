@@ -33,6 +33,8 @@ Conet is a real-time room-based chat application built with React, TypeScript, a
 - Lightweight, easy-to-extend starter for auth and persistence
 
 ## Repository structure
+
+```
 conet
 │
 ├── backend
@@ -52,7 +54,7 @@ conet
 │
 │
 └── README.md
-
+```
 
 ## Prerequisites
 
