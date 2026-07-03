@@ -1,29 +1,62 @@
 import { useEffect, useRef, useState } from "react";
-import { RoomHeader } from "../components/RoomHeader";
+import RoomInputBar from "../components/RoomInputBar";
+import MessageList from "../components/MessageList";
+import { useLocation, useParams } from "react-router-dom";
 
 
+export type chatMessage = {
+  text: string,
+  username: string,
+  timestamp: number
+}
 
 export function ChatRoom(){
-    const [message, setMessage] = useState<string[]>([]);
-    const [ownText, setOwnText] = useState<string>("");
+    const [message, setMessage] = useState<chatMessage[]>([]);
+    const [onlineUsers, setOnlineUsers] = useState(0);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const wsRef = useRef<WebSocket | null>(null);
+    const { roomId } = useParams()
+    const location = useLocation();
 
+    
+    const username = location.state.username;
 
+    
     useEffect(() => {
-        const ws = new WebSocket("http://localhost:8080");
-
+        const ws = new WebSocket("ws://localhost:8080");
+        
         ws.onmessage = (e) => {
-            setMessage(message => [...message, e.data])
+            const parsedMsg = JSON.parse(e.data);
+
+            const type = parsedMsg.type;
+
+            if(type == "room_update"){
+              const totalUsers = parsedMsg.payload.totalusers;
+              setOnlineUsers(totalUsers);
+              
+            }
+            if(type == "chat"){
+              const text = parsedMsg.payload.text;
+              const user = parsedMsg.payload.username;
+              const timestamp = parsedMsg.payload.timestamp;
+
+              setMessage(message => [...message , {
+                text, 
+                username: user, 
+                timestamp
+              }]);
+
+            }
         }
-
+        
         wsRef.current = ws;
-
+        
         ws.onopen = () => {
             ws.send(JSON.stringify({
                 type: "join",
                 payload: {
-                    roomId: "red"
+                    roomId: roomId?.toString(),
+                    username
                 }
             }))
         }
@@ -37,64 +70,81 @@ export function ChatRoom(){
 
     function sendMessage(){
         const text = inputRef.current?.value;
+        const timestamp =  Date.now();
+
         if(!text) return;
-        setOwnText(text);
+        
         wsRef.current?.send(JSON.stringify({
                         type: "chat",
                         payload: {
-                            message: text
+                             text,
+                             username,
+                             timestamp
                         }
-        }))  
+        })) 
+        
+        if(inputRef.current){
+            inputRef.current.value = "";
+        }
+
     }
 
+    function pressEnter(e: React.KeyboardEvent<HTMLInputElement>){
+        if(e.key === "Enter"){
+            sendMessage();
+        }
+    }
+
+    
+
 return (
-    <div className="h-screen bg-[#222222] text-white flex justify-center items-center p-4">
-      <div className="w-full max-w-3xl h-[90vh] bg-[#222222] rounded-4xl flex flex-col overflow-hidden">
+  <div className="min-h-screen bg-[#222222] flex items-center justify-center px-4">
+    <div className="w-full max-w-4xl">
 
-        <RoomHeader />
+      <div className="text-center mb-8">
+        <h1 className="text-5xl font-bold text-[#C2D8C4] tracking-tight">
+          conet
+        </h1>
 
-        <div className="h-full flex flex-col overflow-auto">
-          <div className="bg-[#222222] border-x-2 border-[#C2D8C4] flex-1">
-            {message.map(m => <div className="pl-5 pt-2 border max-w-30">
-                <div>
-                    {m}
-                </div>
-            </div>)}
-                <div className="flex flex-col">
-                    <div>
-                        {ownText}
-                    </div>
-                </div>
+        <p className="mt-3 text-zinc-400">
+          room • {roomId}
+        </p>
+      </div>
 
+      <div className="rounded-4xl border border-[#C2D8C4] bg-[#222222] overflow-hidden h-[80vh] flex flex-col">
+
+        <div className="border-b border-[#3A3A3A] px-6 py-4 flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-[#C2D8C4]">
+              #{roomId}
+            </h2>
+
+            <p className="text-sm text-zinc-500">
+              Real-time room chat
+            </p>
           </div>
-          <div className="border-2 border-[#C2D8C4] rounded-b-4xl p-4">
-            <div className="flex gap-4">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  placeholder="Type a message..."
-                  className="flex-1 text-[#C2D8C4] bg-[#222222] border border-[#C2D8C4] rounded-xl px-4 py-3 outline-none"
-                />
-                
-                <button
-                  onClick={sendMessage}
-                  className="
-                    px-8
-                    rounded-xl
-                    bg-[#222222]
-                    border
-                    border-[#C2D8C4]
-                    hover:bg-[#315a30]
-                    transition
-                    text-[#C2D8C4]
-                    font-semibold"
-                >
-                  Send
-                </button>
-              </div>
+          <div className="px-4 py-2 rounded-xl bg-[#222222] border border-[#C2D8C4] flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-[#C2D8C4]"/>
+                <span className="text-white">
+                    {onlineUsers}
+                </span>
           </div>
         </div>
+
+        <div className="flex-1 overflow-y-auto p-4">
+          <MessageList message={message} currentUser={username} />
+        </div>
+
+        <div className="border-t border-[#3A3A3A] p-4">
+          <RoomInputBar
+            inputRef={inputRef}
+            sendMessage={sendMessage}
+            pressEnter={pressEnter}
+          />
+        </div>
+
       </div>
     </div>
-)
+  </div>
+);
 }
