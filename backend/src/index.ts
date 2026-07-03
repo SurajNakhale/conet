@@ -27,7 +27,7 @@ type messageInfoType = {
 
 export function countMembers(roomId: string){
     const members = rooms.get(roomId)?.size ?? 0;
-
+            console.log(members)
             const sockets = rooms.get(roomId);
             sockets?.forEach((s) => {
                 s.send(JSON.stringify({

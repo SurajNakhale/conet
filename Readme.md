@@ -1,12 +1,12 @@
 
 
-# Connect
+# Conet
 
 Real-time room-based chat application powered by WebSockets and TypeScript.
 
 ## About
 
-Connect is a real-time room-based chat application built with React, TypeScript, and WebSockets. Users can create or join chat rooms and exchange messages instantly through persistent WebSocket connections. The project focuses on low-latency communication, scalable room management, and a clean modern user experience.
+Conet is a real-time room-based chat application built with React, TypeScript, and WebSockets. Users can create or join chat rooms and exchange messages instantly through persistent WebSocket connections. The project focuses on low-latency communication, scalable room management, and a clean modern user experience.
 
 ## Tech Stack
 
