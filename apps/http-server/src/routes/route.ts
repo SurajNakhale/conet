@@ -11,13 +11,13 @@ const router = Router();
 
 router.post('/signup', signup);
 router.post('/signin', signin);
-router.post('/room', createRoom);
+router.post('/room', authMiddleware, createRoom);
 
 router.get('/user', authMiddleware, getuser);
 router.get('/rooms', getAllRooms);
-router.get('/room/:roomId/messages', getMessage);
+router.get('/room/:roomId/messages', authMiddleware, getMessage);
 
-router.delete('/room/:roomId', deleteRoom);
+router.delete('/room/:roomId', authMiddleware, deleteRoom);
 
 
 export default router
