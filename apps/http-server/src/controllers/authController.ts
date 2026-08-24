@@ -15,9 +15,9 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
     try{
         const {username, password} = parsedMsg.data;
 
-        const alreadyExists = await prisma.user.findFirst({
+        const alreadyExists = await prisma.user.findUnique({
             where: {
-                username
+                username: username
             }
         });
 
