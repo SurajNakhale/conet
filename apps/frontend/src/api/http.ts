@@ -1,0 +1,151 @@
+interface signupI {
+    username: string,
+    password: string
+}
+interface signinI {
+    username: string,
+    password: string
+}
+interface createRoomI {
+    name: string
+}
+
+interface deleteRoomI {
+    roomId: string
+}
+interface roomMsgI {
+    roomId: string
+};
+
+const backend_url = "http://localhost:4000/api";
+
+
+export async function signup(data: signupI){
+    const { username, password } = data;
+    
+    const result = await fetch(`${backend_url}/signup`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+            username: username, 
+            password: password
+        })
+    })
+    const response = await result.json();
+
+    return response;
+};
+
+export const signin = async(data: signinI) => {
+    const { username, password } = data;
+
+    const result = await fetch(`${backend_url}/signin`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username, 
+            password
+        })
+    });
+
+    const response = await result.json();
+    
+    if (!result.ok) {
+        throw new Error(response.message || "Signin failed");
+    }
+
+    localStorage.setItem("Authorization", `Bearer ${response.token}`);
+    
+    return response;
+}
+
+export const getUserInfo = async () => {
+    const token = localStorage.getItem("Authorization");
+
+    const result = await fetch(`${backend_url}/user`, {
+        method: "GET",
+        headers: {
+            'authorization': `${token}`
+        }
+    })
+
+     if (!result.ok) {
+        const error = await result.json();
+        throw new Error(error.message || `Request failed: ${result.status}`);
+    }
+    const response = await result.json();
+  
+    return response;
+}
+
+export const createRoom = async (data: createRoomI) => {
+    const token = localStorage.getItem('Authorization');
+    const { name } = data;
+
+    const result = await fetch(`${backend_url}/room`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `${token}`
+        },
+        body: JSON.stringify({name})
+    });
+
+    const response = await result.json();
+
+    return response;
+}
+export const getAllRooms = async() => {
+    const token = localStorage.getItem('Authorization');
+
+    const result = await fetch(`${backend_url}/rooms`, {
+        method: "GET",
+        headers: {
+            'authorization': `${token}`
+        }
+    });
+
+    console.log(result)
+    if(!result.ok){
+        throw new Error(`response error: ${result}`)
+    }
+    const response = await result.json();
+
+    return response;
+}
+
+export const getRoomMessages = async(data: roomMsgI) => {
+    const token = localStorage.getItem('authorization');
+    const { roomId } = data;
+    const result = await fetch(`${backend_url}/room/${roomId}/messages`, {
+        method: "GET",
+        headers: {
+            'authorization': `${token}`
+        }
+    });
+
+    const response = await result.json();
+
+    return response;
+}
+
+export const deleteRoom = async(data: deleteRoomI) => {
+    const { roomId } = data;
+    const token = localStorage.getItem('authorization');
+    const result = await fetch(`${backend_url}/room/${roomId}`,{
+        method: "DELETE",
+        headers: {
+            'authorization': `${token}`
+        }
+    });
+
+    const response = await result.json();
+
+    return response;
+}
+
+
