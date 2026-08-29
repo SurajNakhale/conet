@@ -32,8 +32,13 @@ export async function signup(data: signupI){
             username: username, 
             password: password
         })
-    })
+    });
+
     const response = await result.json();
+
+    if (!result.ok) {
+        throw new Error(response.message || "Signup failed");
+    }
 
     return response;
 };
@@ -97,6 +102,10 @@ export const createRoom = async (data: createRoomI) => {
 
     const response = await result.json();
 
+    if (!result.ok) {
+        throw new Error(response.message || "Failed to create room");
+    }
+
     return response;
 }
 export const getAllRooms = async() => {
@@ -109,11 +118,11 @@ export const getAllRooms = async() => {
         }
     });
 
-    console.log(result)
-    if(!result.ok){
-        throw new Error(`response error: ${result}`)
-    }
     const response = await result.json();
+
+    if(!result.ok){
+        throw new Error(response.message || "Failed to fetch rooms");
+    }
 
     return response;
 }
@@ -134,11 +143,11 @@ export const getRoomMessages = async(data: roomMsgI) => {
         }
     });
 
-    if(!result.ok){
-        throw new Error(`error ${result}`)
-    }
-
     const response = await result.json();
+
+    if(!result.ok){
+        throw new Error(response.message || "Failed to fetch room messages");
+    }
 
     return response;
 }
@@ -154,6 +163,10 @@ export const deleteRoom = async(data: deleteRoomI) => {
     });
 
     const response = await result.json();
+
+    if (!result.ok) {
+        throw new Error(response.message || "Failed to delete room");
+    }
 
     return response;
 }
