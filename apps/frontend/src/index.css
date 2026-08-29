@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: #000000;
+  --color-foreground: #FFFFFF;
+  --color-primary: #0077C0;
+  --color-accent: #C7EEFF;
+}
