@@ -119,14 +119,24 @@ export const getAllRooms = async() => {
 }
 
 export const getRoomMessages = async(data: roomMsgI) => {
-    const token = localStorage.getItem('authorization');
     const { roomId } = data;
+
+    const token = localStorage.getItem('Authorization');
+       
+    if (!token) {
+        throw new Error("Authorization token is missing. Please log in again.");
+    }
+
     const result = await fetch(`${backend_url}/room/${roomId}/messages`, {
         method: "GET",
         headers: {
             'authorization': `${token}`
         }
     });
+
+    if(!result.ok){
+        throw new Error(`error ${result}`)
+    }
 
     const response = await result.json();
 
@@ -135,7 +145,7 @@ export const getRoomMessages = async(data: roomMsgI) => {
 
 export const deleteRoom = async(data: deleteRoomI) => {
     const { roomId } = data;
-    const token = localStorage.getItem('authorization');
+    const token = localStorage.getItem('Authorization');
     const result = await fetch(`${backend_url}/room/${roomId}`,{
         method: "DELETE",
         headers: {
