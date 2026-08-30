@@ -6,55 +6,40 @@ const navLinks = [
 ]
 
 const Navbar = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
-    <nav className="fixed top-8 left-0 z-50 w-full px-6">
-      <div className="mx-auto flex max-w-3xl items-center justify-between rounded-3xl border border-white/10 bg-black/50 px-8 py-3 backdrop-blur-xl">
-
+    <nav className="fixed left-0 top-4 z-50 w-full px-2 sm:top-8 sm:px-6">
+      <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-2 px-4 rounded-2xl border border-white/10 bg-black/50 py-3 backdrop-blur-xl sm:px-6 lg:px-8">
         {/* Logo */}
-        <div className="flex items-center justify-center overflow-hidden px-2 py-2">
-            <a
-            href="/"
-            className="text-3xl font-bold tracking-tight text-primary "
-            >
+        <div className="flex shrink-0 items-center justify-center overflow-hidden px-1">
+          <a href="/" className="text-xl font-bold tracking-tight text-primary sm:text-3xl">
             conet
-            </a>
+          </a>
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center gap-7">
+        <div className="flex flex-1 items-center justify-end gap-2 sm:gap-4 lg:gap-7">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="
-                text-md font-light text-white/70
-                transition-colors duration-200
-                hover:text-accent
-              "
+              className="text-[10px] font-light text-white/70 transition-colors duration-200 hover:text-accent sm:text-[15px]"
             >
               {link.label}
             </a>
           ))}
-            <button 
-            onClick={() => navigate(`/signin`)}    
-            className="
-            text-md font-light text-white/70
-                transition-colors duration-200
-                hover:text-accent
-            ">
-                Login
-            </button>
+
+          <button
+            onClick={() => navigate(`/signin`)}
+            className="text-[10px] font-light text-white/70 transition-colors duration-200 hover:text-accent sm:text-[15px]"
+          >
+            Login
+          </button>
+
           <button
             onClick={() => navigate(`/signup`)}
-            className="
-              rounded-2xl bg-primary/10
-              px-5 py-2.5
-              font-light text-white/70
-              transition-all duration-200
-              hover:scale-105
-            "
+            className="shrink-0 rounded-xl bg-primary/10 px-2.5 py-1.5 text-[10px] font-light text-white/70 transition-all duration-200 hover:scale-105 sm:rounded-2xl sm:px-5 sm:py-2.5 sm:text-[15px]"
           >
             Get Started
           </button>
