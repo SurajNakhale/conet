@@ -1,14 +1,19 @@
 import { Search } from "lucide-react";
 
-type SearchBarProps = {
+interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
-};
+}
 
 const SearchBar = ({ value, onChange }: SearchBarProps) => {
   return (
-    <label className="group flex h-13 max-w-xl ml-[18px] items-center gap-3 rounded-2xl border border-white/10 px-4 text-foreground/70 transition hover:border-accent/20 bg-black ">
-      <Search className="text-white/20 group-hover:translate-x-0.5 transition duration-400" size={18} strokeWidth={1.5} />
+    <label className="group flex h-13 max-w-xl ml-[18px] items-center gap-3 rounded-2xl border border-white/10 px-4 text-foreground/70 transition hover:border-primary/30 bg-black">
+      <Search
+        className="text-white/80 transition duration-400 group-hover:translate-x-0.5"
+        size={18}
+        strokeWidth={1.5}
+      />
+
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}

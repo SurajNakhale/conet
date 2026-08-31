@@ -24,13 +24,13 @@ const RoomInputBar = () => {
   }
   
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 ">
       <input
         ref={inputRef}
         type="text"
         placeholder="Type a message..."
         onKeyDown={pressEnter}
-        className="flex-1 rounded-2xl bg-transparent px-4 py-3 text-normal text-foreground placeholder:text-foreground outline-none transition"
+        className="flex-1 bg-transparent px-4 py-3 text-normal text-foreground placeholder:text-foreground outline-none transition"
       />
 
       <button
