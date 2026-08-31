@@ -18,6 +18,7 @@ interface roomMsgI {
 };
 
 const backend_url = "http://localhost:4000/api";
+import axios from "axios";
 
 
 export async function signup(data: signupI){
@@ -85,6 +86,39 @@ export const getUserInfo = async () => {
     const response = await result.json();
   
     return response;
+}
+
+export const getUserbyId = async (data: {id: string}) => {
+    const token = localStorage.getItem('Authorization');
+
+    const result = await axios.get(`${backend_url}/user/${data.id}`, {
+          headers: {
+            'authorization': `${token}`
+        }
+    })
+
+     if (result.status != 200) {
+        throw new Error(result.data || `Request failed: ${result.status}`);
+    }
+
+    return result.data.user.username;
+}
+
+export const getRoomById = async (data: {id: string}) => {
+    const token = localStorage.getItem('Authorization');
+
+    const result = await axios.get(`${backend_url}/room/${data.id}`, {
+          headers: {
+            'authorization': `${token}`
+        }
+    })
+
+     if (result.status != 200) {
+        throw new Error(result.data || `Request failed: ${result.status}`);
+    }
+
+    return result.data.room.name;
+
 }
 
 export const createRoom = async (data: createRoomI) => {
