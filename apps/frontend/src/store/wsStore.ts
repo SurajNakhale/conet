@@ -13,8 +13,10 @@ type WebSocketType = {
     userId: string
     isAuthenticated: boolean
     currentRoom: string
-    roomSize: number,
-    // rooms: [],
+    roomSizes: Record<string, {
+        member: string[],
+        count: number
+    }>
     messages: Message[], 
 
     connect: (roomId: string) => void
@@ -28,9 +30,8 @@ export const useWsStore = create<WebSocketType>((set, get) => ({
     socket: null,
     userId: "",
     currentRoom: "",
-    roomSize: 0,
+    roomSizes: {},
     messages: [],         
-    // rooms: [],
     isConnected: false,
     isAuthenticated: false,
 
@@ -75,9 +76,18 @@ export const useWsStore = create<WebSocketType>((set, get) => ({
    
             if(parsedMsg.type == "room_size"){
                 console.log(`members: ${parsedMsg.payload.totalUsers}`)
-                set({
-                    roomSize: parsedMsg.payload.totalUsers
-                })
+                const targetRoomId = get().currentRoom; 
+                console.log(parsedMsg.payload)
+                set((state) => ({
+                    roomSizes: {
+                        ...state.roomSizes,
+                        [targetRoomId]: {
+                            member: parsedMsg.payload.members,
+                            count: parsedMsg.payload.memberCount
+                        }
+                    }
+                }))
+
             }
 
             if(parsedMsg.type == "chat_success"){
@@ -178,7 +188,7 @@ export const useWsStore = create<WebSocketType>((set, get) => ({
             isConnected: false,
             currentRoom: "",
             userId: "",
-            roomSize: 0,
+            roomSizes: {},
             messages: []
         })
     }
