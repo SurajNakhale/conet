@@ -24,6 +24,14 @@ wss.on("connection", (socket) => {
                 const userId = await handleAuth(token);
                 console.log("userId: ", userId);
                 
+                socket.send(JSON.stringify({
+                    type: "auth_success",
+                    payload: {
+                        userId,
+                    }
+                }));
+
+
                 SocketToUserId.set(socket , userId)
             }
 
