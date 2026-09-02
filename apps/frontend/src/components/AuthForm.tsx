@@ -13,6 +13,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [formError, setFormError] = useState('');
     const isSignin = type === 'signin';
 
 
@@ -26,8 +27,8 @@ export const AuthForm = ({ type }: AuthFormProps) => {
             navigate('/rooms');
         },
 
-        onError: (err) => {
-            console.error(err);
+        onError: (err: Error) => {
+          setFormError(err.message);
         }
     });
 
@@ -40,24 +41,27 @@ export const AuthForm = ({ type }: AuthFormProps) => {
             navigate('/signin');
         },
 
-        onError: (err) => {
-            console.error(err);
+        onError: (err: Error) => {
+          setFormError(err.message);
         }
     });
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const trimmedUsername = username.trim();
-        const trimmedPassword = password.trim();
+        const userName = username.trim();
+        const Password = password.trim();
 
-        if (!trimmedUsername || !trimmedPassword) {
+        if (!userName || !Password) {
+          setFormError('Username and password are required.');
             return;
         }
 
+        setFormError('');
+
         const payload = {
-            username: trimmedUsername,
-            password: trimmedPassword,
+            username: userName,
+            password: Password,
         };
 
         if (isSignin) {
@@ -71,6 +75,8 @@ export const AuthForm = ({ type }: AuthFormProps) => {
         navigate(path);
     }
 
+    const activeMutation = isSignin ? signinMutation : signupMutation;
+
 return (
     <div className="min-h-screen w-full relative flex items-center bg-black justify-center p-4 sm:p-6 lg:p-8">
       <div className="absolute inset-0">
@@ -83,7 +89,7 @@ return (
       {/* Centered Card Container */}
       <div className="flex w-full max-w-145 border-primary/10 z-50 rounded-3xl shadow-2xl shadow-white-300/60 overflow-hidden border-2 border-white-200/80 min-h-145">
 
-        <div className="w-full lg:w-full text-black bg-white bg-linear-to-t from-10% from-accent to-white relative flex items-center justify-center p-8 sm:p-12">
+        <div className="w-full lg:w-full text-black bg-white/10 bg-linear-to-t from-10% from-accent to-white relative flex items-center justify-center p-8 sm:p-12">
           <div className="w-full max-w-sm space-y-6">
             
             {/* Header */}
@@ -138,12 +144,19 @@ return (
                 />
               </div>
 
+              {formError && (
+                <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+                  {formError}
+                </p>
+              )}
+
               {/* Submit Button */}
               <button
                 type="submit"
+                disabled={activeMutation.isPending}
                 className="w-full py-2.5 px-4 bg-black hover:bg-gray-900 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-150 active:scale-[0.98] cursor-pointer"
               >
-                {isSignin ? 'Sign In' : 'Sign Up'}
+                {activeMutation.isPending ? 'Please wait...' : isSignin ? 'Sign In' : 'Sign Up'}
               </button>
             </form>
 
