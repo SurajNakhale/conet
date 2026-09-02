@@ -51,6 +51,8 @@ export async function handleJoin(roomId: string, socket: WebSocket) {
         },
       }),
     );
+    
+    console.log("join succcess")
 
   } catch (err: any) {
     console.error(`[Join Error] Room: ${roomId} | Message:`, err.message || err);

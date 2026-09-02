@@ -40,14 +40,16 @@ export async function handleChat(text: string, socket: WebSocket){
 
         allSockets?.forEach((ws) => {
             ws.send(JSON.stringify({
-                type: "chat",
-                payload: message
+                type: "chat_success",
+                payload: {
+                    message: message
+                }
             }))
         })
 
         
         console.log(message);
-
+        
 
         
     }
