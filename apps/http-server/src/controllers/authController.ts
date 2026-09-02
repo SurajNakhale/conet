@@ -32,6 +32,8 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
             }
         })
 
+        console.log(user);
+
         res.status(201).json({
             message: "user created",
             newUser: user
@@ -70,7 +72,7 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
         res.status(200).json({
             message: "signin successfull",
             token: token,
-            userId: exists.id
+            userId: exists.id,
         });
 
     }catch(err){
@@ -81,18 +83,59 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
 export const getuser = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.userId;
 
+    if (!userId) {
+        res.status(401).json({
+            message: "Unauthorized",
+        });
+        return;
+    };
+    
     try{
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findUnique({
             where: {
                 id: userId
             },
             select: {
                 username: true,
+                id: true,
                 rooms: true
             }
         })
 
-        if(!user) throw new appError("user doest not exists", 403);
+        if(!user) throw new appError("user doest not exists", 401);
+
+        res.status(200).json({
+            user
+        })
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+export const getUserbyId = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.userId;
+    const id = req.params.id as string;
+
+    if (!userId) {
+        res.status(401).json({
+            message: "Unauthorized",
+        });
+        return;
+    };
+    
+    try{
+        const user = await prisma.user.findUnique({
+            where: {
+                id: id
+            },
+            select: {
+                username: true,
+                id: true,
+            }
+        })
+
+        if(!user) throw new appError("user doest not exists", 401);
 
         res.status(200).json({
             user
