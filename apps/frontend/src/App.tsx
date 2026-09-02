@@ -7,6 +7,8 @@ import Rooms from "@/pages/Rooms";
 import ChatRoom from "./pages/ChatRoom"
 import AuthRoute from "./components/AuthRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
+import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +25,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
           </Route>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/about" element={<About />} />
           
           <Route element={<ProtectedRoute />}>
             <Route path="/rooms" element={<Rooms />} />
