@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowBigLeft } from "lucide-react";
 import { CreateRoomButton } from "@/components/CreateRoomButton";
 import ProfileButton from "@/components/ProfileButton";
 import RoomCard from "@/components/RoomCard";
@@ -43,7 +43,7 @@ const Rooms = () => {
             }
         }) || [];  
       };
-      
+
       const filteredRooms = rooms.filter((room) =>
         room.name.toLowerCase().includes(search.toLowerCase())
       );
@@ -54,11 +54,11 @@ return (
         <aside className="hidden w-16 flex-col items-center border-r border-white/10 md:flex">
           <button
             type="button"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
             aria-label="Go back"
-            className="mt-10 rounded-full p-2 text-white/60 transition duration-200 hover:bg-primary/30 "
+            className="mt-10 rounded-full p-2 text-white/60 transition duration-200  "
           >
-            <ArrowLeft size={28} strokeWidth={2} />
+            <ArrowBigLeft size={28} strokeWidth={2} className="hover:text-primary/30 hover:scale-110 transition-all duration-200 text-white/50 brightness-130" />
           </button>
         </aside>
 
@@ -69,7 +69,7 @@ return (
                 <SearchBar value={search} onChange={setSearch}/>
               </div>
 
-              <div className="flex items-center justify-between gap-4 sm:justify-center sm:gap-8 sm:pr-2">
+              <div className="flex items-center justify-between transition-all duration-300 gap-4 sm:justify-center sm:gap-8 sm:pr-2">
                 <CreateRoomButton />
                 <ProfileButton />
               </div>
@@ -79,14 +79,14 @@ return (
           <div className="px-4 pt-5 sm:px-6 md:px-8">
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <p className="text-sm text-white/60">conet spaces</p>
+                <p className="text-sm text-white/60">conet</p>
                 <h1 className="text-2xl font-medium tracking-tight text-white sm:text-3xl">
                   Available rooms
                 </h1>
               </div>
             </div>
 
-            <div className="mt-10 ml-4 flex flex-wrap items-start gap-4 md:gap-5">
+            <div className="mt-10 md:ml-4 flex flex-wrap gap-4 md:gap-5">
               {filteredRooms.length !== 0 
               && filteredRooms.map((room) => (
                 <RoomCard

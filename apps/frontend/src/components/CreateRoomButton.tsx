@@ -47,12 +47,15 @@ export const CreateRoomButton = () => {
       <button
         type="button"
         onClick={() => setCreateModule(true)}
-        className="group flex h-10 items-center justify-center gap-1.5 rounded-xl border border-white/10 px-3 text-[10px] text-white/90 transition-all duration-300 hover:bg-primary/30 sm:h-11 sm:gap-2 sm:px-4 sm:text-xs md:h-12 md:px-5 md:text-sm lg:text-base"
+        className="group flex h-10 items-center justify-center rounded-xl border
+         border-white/30 hover:border-primary/30 px-3 text-[10px] text-white/90
+         transition-all duration-300 hover:bg-primary/30 
+         sm:h-11 sm:gap-2 sm:px-4 sm:text-xs md:h-12 md:px-3 md:text-sm lg:text-base"
       >
-        <span className="whitespace-nowrap">Create room</span>
+        <div className="whitespace-nowrap font-semibold">Create room</div>
         <Plus
           size={15}
-          className="shrink-0 transition-all duration-300 group-hover:scale-110"
+          className="shrink-0 transition-all ml-1 duration-300 group-hover:-translate-x-0.5"
           strokeWidth={2}
         />
       </button>

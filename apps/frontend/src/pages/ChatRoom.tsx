@@ -4,8 +4,8 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 import { getRoomById, getRoomMessages, getUserbyId, getUserInfo } from "@/api/http";
 import { useEffect } from "react";
 import { useWsStore } from "@/store/wsStore";
-import { useParams } from "react-router-dom";
-import { UsersRound } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ArrowBigLeft, UsersRound } from "lucide-react";
 
 const ChatRoom = () => {
   const { roomId } = useParams();
@@ -97,7 +97,7 @@ const ChatRoom = () => {
 
   const user = userQuery.data.user.username;
 
-
+  const navigate = useNavigate();
   return (
     <main className="relative h-screen w-screen overflow-hidden bg-background p-3 text-[#F3F4F6] sm:p-4 lg:p-6">
 
@@ -115,12 +115,21 @@ const ChatRoom = () => {
         {/* Header */}
         <header
           className="
-            flex h-16 shrink-0 items-center justify-between
+            flex h-16 shrink-0 items-center justify-between lg:justify-start
             border-b border-white/10
-            px-4 sm:px-6
+            px-4 sm:px-6 
           "
         >   
-        
+          <div className="hidden lg:block">
+            <button
+                  type="button"
+                  onClick={() => navigate(-1)}
+                  aria-label="Go back"
+                  className="p-2 text-white/60 transition duration-200  "
+                >
+                  <ArrowBigLeft size={28} strokeWidth={2} className="hover:text-primary/30 hover:scale-110 transition-all duration-200 text-white/50 brightness-130" />
+                </button>
+          </div>
           <div className="min-w-0">
             <h1 className="truncate text-sm font-semibold sm:text-base">
                 {roomName.data}

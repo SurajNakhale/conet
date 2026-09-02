@@ -50,15 +50,16 @@ const Features = () => {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/10 p-4 transition-transform duration-300 hover:border-primary/30 sm:flex-row sm:items-center sm:px-5 sm:py-4 md:mt-16">
+        <div className="group mt-12 flex flex-col items-start justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/10 p-4 transition-transform duration-300 hover:border-primary/30 sm:flex-row sm:items-center sm:px-5 sm:py-4 md:mt-16">
           <div>
             <p className="text-base font-medium sm:text-lg">Your next conversation starts here.</p>
             <p className="mt-1 text-xs text-white/50 sm:text-sm">Make a room, invite your people, and get talking.</p>
           </div>
           <button 
           onClick={() => navigate("/rooms")}
-          className="group inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-white">
-            create a room <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+          className="group inline-flex items-center gap-1 text-base text-accent transition-colors hover:text-white">
+            create a room 
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </button>
         </div>
       </div>

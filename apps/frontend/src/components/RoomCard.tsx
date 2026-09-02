@@ -47,12 +47,12 @@ const RoomCard = ({ room }: RoomCardProps) => {
     <button
       type="button"
       className="
-        group flex h-32 w-full max-w-full flex-col justify-between
+        group flex  h-32 max-w-full flex-col justify-between
         rounded-2xl border border-white/10 bg-background
         p-4 text-left text-foreground
         transition-all duration-200
         hover:-translate-y-1 hover:border-accent/20 hover:bg-primary/10
-         sm:w-[300px] lg:w-[250px]
+        sm:w-68.5 lg:w-89
       "
     >
       {/* Top */}

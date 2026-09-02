@@ -1,7 +1,8 @@
-import { UserRound } from "lucide-react";
+import { ArrowBigLeft, UserRound } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/api/http";
 import RoomCard from "@/components/RoomCard";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { data, isLoading, isError, isSuccess } = useQuery({
@@ -42,14 +43,26 @@ const Profile = () => {
         console.log(rooms)
   }
 
+  const navigate = useNavigate();
+
   return (
     <main className="min-h-screen bg-background px-4 py-10 text-foreground">
       <div className="mx-auto w-full h-full max-w-4xl">
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">
-            Profile
-          </h1>
+          <div className="flex justify-start items-center">
+            <button
+                    type="button"
+                    onClick={() => navigate(-1)}
+                    aria-label="Go back"
+                    className="p-2 text-white/60 transition duration-200  "
+                  >
+                    <ArrowBigLeft size={28} strokeWidth={2} className="hover:text-primary/30 hover:scale-110 transition-all duration-200 text-white/50 brightness-130" />
+                  </button>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Profile
+            </h1>
+          </div>
 
           <p className="mt-1 text-sm text-foreground/50">
             Manage your account information.
