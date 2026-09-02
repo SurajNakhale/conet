@@ -50,12 +50,53 @@ export const getAllRooms = async (req: Request, res: Response, next: NextFunctio
     try{
         if(!userId) throw new appError("login required", 400);
 
-        const rooms = await prisma.room.findMany();
-
+        const rooms = await prisma.room.findMany({
+            include: {
+                user: {
+                    select: {
+                        username: true
+                    }
+                }
+            }
+        });
+        
         res.status(200).json({
             rooms: rooms
-        });
+        });        
     }catch(err){
+        next(err);
+    }
+}
+
+export const getRoomById = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.userId;
+    const id = req.params.id as string;
+
+    if (!userId) {
+        res.status(401).json({
+            message: "Unauthorized",
+        });
+        return;
+    };
+    
+    try{
+        const room = await prisma.room.findUnique({
+            where: {
+                id: id
+            },
+            select: {
+                name: true,
+                id: true
+            }
+        })
+
+        if(!room) throw new appError("user doest not exists", 401);
+
+        res.status(200).json({
+            room
+        })
+    }
+    catch(err){
         next(err);
     }
 }
@@ -65,6 +106,20 @@ export const deleteRoom = async (req: Request, res: Response, next: NextFunction
     const roomId = req.params.roomId as string;
 
     try{
+        //delete all user_room mapping
+        await prisma.userRoom.deleteMany({
+            where: {
+                roomId
+            }
+        })
+
+        //delete all messages associated to roomId
+        await prisma.message.deleteMany({
+            where: {
+                roomId
+            }
+        })
+        
         const response = await prisma.room.delete({
             where: {
                 id: roomId,
@@ -84,7 +139,6 @@ export const deleteRoom = async (req: Request, res: Response, next: NextFunction
 }
 
 export const getMessage = async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.userId;
     const roomId = req.params.roomId as string;
 
     try{
