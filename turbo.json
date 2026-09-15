@@ -6,8 +6,12 @@
       "persistent": true
     },
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^generate"],
       "outputs": ["dist/**", "build/**"]
+    },
+    "generate": {
+      "cache": true,
+      "outputs": ["generated/**"]
     }
   }
 }
