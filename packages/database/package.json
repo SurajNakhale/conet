@@ -5,5 +5,8 @@
   "type": "module",
   "exports": {
     ".": "./db.ts"
+  },
+  "scripts": {
+    "generate": "bun prisma generate"
   }
 }
