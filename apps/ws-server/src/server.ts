@@ -5,9 +5,10 @@ import { countMembers } from "./lib/utils";
 import { handleJoin } from "./handlers/join";
 import { handleChat } from "./handlers/chat";
 import { handleDisconnects } from "./handlers/disconnect";
+import "dotenv/config";
 
-const wss = new WebSocketServer({ port: 8080});
-
+const port = Number(process.env.PORT) || 8080;
+const wss = new WebSocketServer({ port });
 
 wss.on("connection", (socket) => {
 
