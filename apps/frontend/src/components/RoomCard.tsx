@@ -44,8 +44,7 @@ const RoomCard = ({ room }: RoomCardProps) => {
   }
 
   return (
-    <button
-      type="button"
+    <div
       className="
         group flex  h-32 max-w-full flex-col justify-between
         rounded-2xl border border-white/10 bg-background
@@ -107,7 +106,7 @@ const RoomCard = ({ room }: RoomCardProps) => {
           </button>
         </div>
       </div>
-    </button>
+    </div>
   );
 };
 

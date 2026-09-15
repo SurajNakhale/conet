@@ -17,8 +17,10 @@ interface roomMsgI {
     roomId: string
 };
 
-const backend_url = "http://localhost:4000/api";
 import axios from "axios";
+
+const backend_url = import.meta.env.VITE_HTTP_BACKEND_URL;
+console.log(`Connecting to: ${backend_url}`);
 
 
 export async function signup(data: signupI){

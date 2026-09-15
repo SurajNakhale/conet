@@ -25,16 +25,17 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
           </Route>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/about" element={<About />} />
           
           <Route element={<ProtectedRoute />}>
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/room/:roomId" element={<ChatRoom />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/about" element={<About />} />
           </Route>
           
         </Routes>
       </BrowserRouter>
+      
     </QueryClientProvider>
     </>
   )

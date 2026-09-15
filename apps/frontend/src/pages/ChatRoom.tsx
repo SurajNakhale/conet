@@ -9,20 +9,21 @@ import { ArrowBigLeft, UsersRound } from "lucide-react";
 
 const ChatRoom = () => {
   const { roomId } = useParams();
-
+  const navigate = useNavigate();
+  
   if (!roomId) throw new Error("roomId required");
-
-    const connect = useWsStore((state) => state.connect);
-    const disconnect = useWsStore((state) => state.disconnect);
-    const roomData = useWsStore((state) => state.roomSizes[roomId]);
+  
+  const connect = useWsStore((state) => state.connect);
+  const disconnect = useWsStore((state) => state.disconnect);
+  const roomData = useWsStore((state) => state.roomSizes[roomId]);
     const count = roomData?.count ?? 0;
     const members = roomData?.member ?? [];
-
+    
     const memberQueries = useQueries({
         queries: members.map((userId) => ({
         queryKey: ["user-profile", userId],
         queryFn: async () => {
-                // Replace with your actual HTTP client/endpoint to get a username by ID
+            // Replace with your actual HTTP client/endpoint to get a username by ID
             const response = await getUserbyId({id: userId})
             console.log(response)
             return response
@@ -37,7 +38,7 @@ const ChatRoom = () => {
         .filter((username): username is string => !!username);
 
     const roomName = useQuery({
-        queryKey: ["room_name"],
+        queryKey: ["room_name", roomId],
         queryFn: () => getRoomById({id: roomId}),
         retry: false
     });
@@ -97,7 +98,6 @@ const ChatRoom = () => {
 
   const user = userQuery.data.user.username;
 
-  const navigate = useNavigate();
   return (
     <main className="relative h-screen w-screen overflow-hidden bg-background p-3 text-[#F3F4F6] sm:p-4 lg:p-6">
 

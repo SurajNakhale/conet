@@ -16,7 +16,7 @@ const ProtectedRoute = () => {
 
     if(!data || isError){
         console.log(data)
-        return <Navigate to="/signup" replace />;
+        return <Navigate to="/signin" replace />;
     }
     console.log({ data, isPending, isError, error });
     return <Outlet />

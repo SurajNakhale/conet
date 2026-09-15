@@ -26,6 +26,8 @@ type WebSocketType = {
     disconnect: () => void
 }
 
+const wsUrl = import.meta.env.VITE_WS_BACKEND_URL;
+
 export const useWsStore = create<WebSocketType>((set, get) => ({
     socket: null,
     userId: "",
@@ -44,7 +46,7 @@ export const useWsStore = create<WebSocketType>((set, get) => ({
             (existingWs.readyState == WebSocket.OPEN 
             || existingWs.readyState === WebSocket.CONNECTING)) return;
 
-        const ws = new WebSocket("ws://localhost:8080");
+        const ws = new WebSocket(`${wsUrl}`);
         set({socket: ws});
 
         ws.onopen = () => {
@@ -77,7 +79,7 @@ export const useWsStore = create<WebSocketType>((set, get) => ({
             if(parsedMsg.type == "room_size"){
                 console.log(`members: ${parsedMsg.payload.totalUsers}`)
                 const targetRoomId = get().currentRoom; 
-                console.log(parsedMsg.payload)
+                console.log("yoyoyyo    ",parsedMsg.payload)
                 set((state) => ({
                     roomSizes: {
                         ...state.roomSizes,
