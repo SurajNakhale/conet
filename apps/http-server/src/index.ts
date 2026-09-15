@@ -8,12 +8,14 @@ import "dotenv/config";
 const app = express();
 const port = Number(process.env.PORT) || 4000;
 const frontendUrl = process.env.FRONTEND_URL;
-console.log(frontendUrl)
+
+console.log("fe url", frontendUrl);
+
 app.use(express.json());
 
 app.use(cors({
     origin: frontendUrl,
-    methods: ["GET, POST, PUT, DELETE, PATCH"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }))
 

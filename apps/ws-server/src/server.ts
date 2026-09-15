@@ -10,6 +10,7 @@ import "dotenv/config";
 const port = Number(process.env.PORT) || 8080;
 const wss = new WebSocketServer({ port });
 
+console.log(`ws-server running`);
 wss.on("connection", (socket) => {
 
     socket.on("message", async (msg) => {
